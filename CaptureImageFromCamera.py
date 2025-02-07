@@ -1,27 +1,54 @@
-from PIL import ImageGrab
+import cv2
 import os
 
-# Directory to save captured images
-base_path = "/sdcard/FaceRecognition"
-if not os.path.exists(base_path):
-    os.makedirs(base_path)
+# Base directory for storing images
+DATASET_DIR = "dataset"
+if not os.path.exists(DATASET_DIR):
+    os.makedirs(DATASET_DIR)
 
-# Input person's name
-person_name = input("Enter the person's name: ")
+# Take user input
+name = input("Enter your name: ")
+class_id = input("Enter your class (2 digits): ")
+roll_no = input("Enter your roll number (3 digits): ")
 
-# Instruction
-print("Please open your camera app, capture an image, and save it in the folder:")
-print(base_path)
+# Validate inputs
+if not (class_id.isdigit() and len(class_id) == 2):
+    print("Invalid class format! Enter a 2-digit class number.")
+    exit()
+if not (roll_no.isdigit() and len(roll_no) == 3):
+    print("Invalid roll number format! Enter a 3-digit roll number.")
+    exit()
 
-# Wait for user input
-input("Once you've saved the image, press Enter to continue...")
+# Create filename (e.g., 09123.png)
+image_name = f"{class_id}{roll_no}.png"
+image_path = os.path.join(DATASET_DIR, image_name)
 
-# Save the image with the person's name
-image_name = f"{person_name}.png"
-image_path = os.path.join(base_path, image_name)
+# Start the camera
+cap = cv2.VideoCapture(0) # Open the default camera
 
-# Confirm image saving
-if os.path.exists(image_path):
-    print(f"Image '{image_name}' successfully saved in {base_path}.")
-else:
-    print(f"No image found in {base_path} with the name '{image_name}'. Please try again.")
+if not cap.isOpened():
+    print("Error: Could not open camera.")
+    exit()
+
+print("Press 'Space' to capture the image, or 'Esc' to exit.")
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("Failed to grab frame.")
+        break
+
+    cv2.imshow("Capture Image", frame)
+    key = cv2.waitKey(1)
+
+    if key == 32: # Space key to capture image
+        cv2.imwrite(image_path, frame)
+        print(f"Image saved as {image_path}")
+        break
+    elif key == 27: # Esc key to exit
+        print("Capture cancelled.")
+        break
+
+# Release resources
+cap.release()
+cv2.destroyAllWindows()
