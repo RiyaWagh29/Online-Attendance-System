@@ -1,0 +1,14 @@
+In both companies and educational institutions, managing attendance is an essential responsibility. Conventional techniques, such manual attendance and RFID-based systems, are labor-intensive, prone to abuse, and prone to mistakes. We suggest a Smart Attendance System that uses face recognition and computer vision technologies to automate attendance marking in order to overcome these difficulties.
+
+To detect and identify student faces, our system is built with Python, OpenCV (cv2), and the face recognition library. The procedure is using a camera to take a picture of each student's face ID, saving it in a local dataset, and then instantly identifying it during attendance sessions. The technology automatically logs attendance in an Excel sheet as soon as a match is discovered.
+
+We also intend to create a web-based platform for improved management and accessibility. The platform will have the following features:
+
+Students can upload crisp photos to be included in the dataset by logging in.
+
+Access to attendance records kept in Excel sheets is made possible via the teacher login.
+
+Admin Control: Provides complete access for system upkeep and enhancement.
+
+
+The goal of this project is to create an automated, safe, and effective attendance system that improves institutional record-keeping, lowers errors, and requires less human intervention.
